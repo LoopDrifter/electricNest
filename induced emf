@@ -1,0 +1,47 @@
+clear; clc;
+
+bmax = 1;
+freq = 50;
+w = 2 * pi * freq;
+t = 0:1/5000:1/50;
+
+% Magnetic field vectors (complex form)
+Baa = bmax * sin(w * t) .* exp(1i * 0);              % Phase A
+Bbb = bmax * sin(w * t - 2*pi/3) .* exp(1i * 2*pi/3); % Phase B
+Bcc = bmax * sin(w * t + 2*pi/3) .* exp(1i * -2*pi/3);% Phase C
+Bnet = Baa + Bbb + Bcc;
+
+% Reference circle
+circle = 1.5 * (cos(w * t) + 1i * sin(w * t));
+
+% Induced EMFs
+emfA = bmax * cos(w * t);
+emfB = bmax * cos(w * t - 2*pi/3);
+emfC = bmax * cos(w * t + 2*pi/3);
+
+figure;
+for ii = 1:length(t)
+    subplot(2, 1, 1); % Top plot - Vector animation
+    plot(circle, 'g'); hold on;
+
+    plot([0 real(Baa(ii))], [0 imag(Baa(ii))], 'k', 'LineWidth', 2);
+    plot([0 real(Bbb(ii))], [0 imag(Bbb(ii))], 'b', 'LineWidth', 2);
+    plot([0 real(Bcc(ii))], [0 imag(Bcc(ii))], 'm', 'LineWidth', 2);
+    plot([0 real(Bnet(ii))], [0 imag(Bnet(ii))], 'r', 'LineWidth', 3);
+
+    axis square;
+    axis([-2 2 -2 2]);
+    title(sprintf('Rotating Magnetic Field - t = %.4f sec', t(ii)));
+    hold off;
+
+    subplot(2, 1, 2); % Bottom plot - EMF waveforms
+    plot(t(1:ii), emfA(1:ii), 'k', ...
+         t(1:ii), emfB(1:ii), 'b', ...
+         t(1:ii), emfC(1:ii), 'm', 'LineWidth', 1.5);
+    legend('e_A', 'e_B', 'e_C');
+    xlabel('Time (s)');
+    ylabel('EMF (V)');
+    axis([0 1/50 -1.5 1.5]);
+    grid on;
+    drawnow;
+end
