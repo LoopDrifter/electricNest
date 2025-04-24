@@ -1,7 +1,7 @@
 %code1
-bmax = 1;            % Normalize bmax to 1
-freq = 50;           % 60 Hz
-w = 2*pi*freq;       % angular velocity (rad/s)
+bmax = 1;           
+freq = 50;         
+w = 2*pi*freq;       
 
 
 t = 0:1/5000:1/50;
@@ -28,7 +28,12 @@ for ii = 1:length(t)
     hold off;
 end
 
+
+
 %code 2
+
+
+
 i_a = (0:1:20) * 3;
 
 
@@ -36,8 +41,8 @@ e_a = 277.0;
 x_s = 1.0;    
 
 pf_values = [0.2, 0.4, 0.6, 0.8];
-theta_lagging = acos(pf_values);   % Lagging power factor (current lags voltage)
-theta_leading = acos(-pf_values);  % Corrected Leading power factor calculation
+theta_lagging = acos(pf_values);   
+theta_leading = acos(-pf_values);  
 
 colors = ['r', 'g', 'b', 'm'];
 
