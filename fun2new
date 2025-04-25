@@ -1,0 +1,44 @@
+
+
+i_a = (0:1:20) * 3;
+
+e_a = 277.0; 
+x_s = 1.0;   
+
+
+pf = 0.8;
+
+
+theta_lagging = acos(pf);  
+theta_leading = acos(-pf); 
+
+
+figure;
+hold on;
+
+
+v_phase_lag = zeros(1, 21);
+for ii = 1:21
+    v_phase_lag(ii) = sqrt(e_a^2 - (x_s * i_a(ii) * sin(theta_lagging))^2) ...
+                    - (x_s * i_a(ii) * cos(theta_lagging));
+end
+v_t_lag = v_phase_lag * sqrt(3);
+plot(i_a, v_t_lag, 'b-', 'LineWidth', 2.0, 'DisplayName', 'Lagging PF = 0.8');
+
+
+v_phase_lead = zeros(1, 21);
+for ii = 1:21
+    v_phase_lead(ii) = sqrt(e_a^2 - (x_s * i_a(ii) * sin(theta_leading))^2) ...
+                     - (x_s * i_a(ii) * cos(theta_leading));
+end
+v_t_lead = v_phase_lead * sqrt(3);
+plot(i_a, v_t_lead, 'r--', 'LineWidth', 2.0, 'DisplayName', 'Leading PF = 0.8');
+
+
+xlabel('Line Current (A)', 'Fontweight', 'Bold');
+ylabel('Terminal Voltage (V)', 'Fontweight', 'Bold');
+title('Terminal Characteristics at PF = 0.8', 'Fontweight', 'Bold');
+grid on;
+axis([0 60 400 550]);
+legend show;
+hold off;
